@@ -32,10 +32,19 @@ export default {
     // 点击按钮，处理登录
     async handleLogin () {
       try {
-        const res = await login(this.user)
-        console.log(res)
+        // data 就是接口返回数据中的data（因为响应拦截器做了处理）
+        // token refresh_token
+        const data = await login(this.user)
+        // 存储登录的状态
+        // 1. vuex
+        this.$store.commit('setUser', data)
+        // 2本地存储
+
+        // 跳转到首页
+        this.$router.push('/')
+        this.$toast.success('登录成功')
       } catch (err) {
-        console.log(err)
+        this.$toast.fail('登录失败')
       }
     }
   }

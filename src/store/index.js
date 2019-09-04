@@ -5,10 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    user: null
   },
   mutations: {
-
+    // 通过mutation改变转态
+    serUser (state, user) {
+      state.user = user
+    }
   },
   actions: {
 

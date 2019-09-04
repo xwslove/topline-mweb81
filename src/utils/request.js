@@ -28,7 +28,9 @@ request.interceptors.request.use(function (config) {
 request.interceptors.response.use(function (response) {
   // console.log(response)
   // Do something with response data
-  return response
+  // 接口返回的数据中都有data，在此处统一返回接口返回的data
+  // 如果接口返回的数据中没有data，此时返回axios响应对象的data属性
+  return response.data.data || response.data
 }, function (error) {
   // Do something with response error
   return Promise.reject(error)
