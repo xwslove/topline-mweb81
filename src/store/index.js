@@ -9,7 +9,7 @@ export default new Vuex.Store({
   },
   mutations: {
     // 通过mutation改变转态
-    serUser (state, user) {
+    setUser (state, user) {
       state.user = user
     }
   },
