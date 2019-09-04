@@ -4,7 +4,19 @@
     <van-nav-bar title="标题" />
     <!-- 文本框输入 -->
     <van-cell-group>
-      <van-field v-model="user.mobile" left-icon="phone-o" placeholder="请输入手机号码" />
+       <!-- 使用VeeValidate
+        1. 通过v-validate 设置验证的规则
+        2. 设置文本框的name属性
+        3. 展示验证错误信息
+       -->
+      <van-field
+      v-validate="'required'"
+      name="mobile"
+      :error-message="errors.first('mobile')"
+      clearable
+      v-model="user.mobile"
+      left-icon="phone-o"
+      placeholder="请输入手机号码" />
       <van-field v-model="user.code" left-icon="star-o" placeholder="请输入验证码">
         <van-button slot="button" type="default" size="small">发送验证码</van-button>
       </van-field>
@@ -18,6 +30,7 @@
 
 <script>
 import { login } from '../api/user'
+import { mapMutations } from 'vuex'
 export default {
   name: 'Login',
   data () {
@@ -29,6 +42,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setUser']),
     // 点击按钮，处理登录
     async handleLogin () {
       try {
@@ -37,8 +51,9 @@ export default {
         const data = await login(this.user)
         // 存储登录的状态
         // 1. vuex
-        this.$store.commit('setUser', data)
+        // this.$store.commit('setUser', data)
         // 2本地存储
+        this.setUser(data)
 
         // 跳转到首页
         this.$router.push('/')
