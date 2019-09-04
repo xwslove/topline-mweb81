@@ -1,7 +1,9 @@
 import axios from 'axios'
 import JSONbig from 'json-bigint'
 
+// 创建一个axios的实例，设置不同的baseURL
 const request = axios.create({
+  timeout: 5000,
   baseURL: 'http://ttapi.research.itcast.cn'
 })
 request.defaults.transformResponse = [function (data) {
@@ -24,7 +26,7 @@ request.interceptors.request.use(function (config) {
 
 // Add a response interceptor
 request.interceptors.response.use(function (response) {
-  console.log(response)
+  // console.log(response)
   // Do something with response data
   return response
 }, function (error) {
