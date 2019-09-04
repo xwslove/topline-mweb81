@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vant from 'vant'
 import 'vant/lib/index.css'
+import './styles/index.less'
 import App from './App.vue'
 import router from './router'
 import store from './store'
