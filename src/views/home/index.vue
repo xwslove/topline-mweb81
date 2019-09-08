@@ -5,29 +5,47 @@
     <!-- 频道列表 -->
     <van-tabs animated v-model="activeIndex">
       <!-- 遍历标签页，显示频道列表 -->
-      <van-tab
-      v-for="channel in channels"
-      :title="channel.name"
-      :key="channel.id">
-      <!-- 下拉加载更多组件 -->
-      <van-pull-refresh
-      :success-text='successText'
-      v-model="currentChannel.pullLoading"
-      @refresh="onRefresh">
-       <!-- 文章列表,不同的标签页下有不同的列表 -->
-        <van-list
-          v-model="currentChannel.loading"
-          :finished="currentChannel.finished"
-          finished-text="没有更多了"
-          @load="onLoad"
+      <van-tab v-for="channel in channels" :title="channel.name" :key="channel.id">
+        <!-- 下拉加载更多组件 -->
+        <van-pull-refresh
+          :success-text="successText"
+          v-model="currentChannel.pullLoading"
+          @refresh="onRefresh"
         >
-          <van-cell
-            v-for="article in currentChannel.articles"
-            :key="article.art_id.toString()"
-            :title="article.title"
-          />
-        </van-list>
-         </van-pull-refresh>
+          <!-- 文章列表,不同的标签页下有不同的列表 -->
+          <van-list
+            v-model="currentChannel.loading"
+            :finished="currentChannel.finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <van-cell
+              v-for="article in currentChannel.articles"
+              :key="article.art_id.toString()"
+              :title="article.title"
+            >
+              <div slot="label">
+                  <!-- grid 显示封面
+                  article.cover.type   0 没有图片   1 1个图片 3 3个图片
+                 -->
+                <van-grid v-if="article.cover.type" :border="false" :column-num="3">
+                  <van-grid-item
+                    v-for="(img, index) in article.cover.images"
+                    :key="img + index"
+                  >
+                    <van-image height="80" :src="img" />
+                  </van-grid-item>
+                </van-grid>
+                <p>
+                  <span>{{article.aut_name}}</span> &nbsp;
+                  <span>{{article.comm_count}}评论</span> &nbsp;
+                  <span>{{article.pubdate}}</span>
+                  <van-icon name="cross" class="close" />
+                </p>
+              </div>
+            </van-cell>
+          </van-list>
+        </van-pull-refresh>
       </van-tab>
     </van-tabs>
   </div>
@@ -68,7 +86,7 @@ export default {
       try {
         const data = await getDefaultOrUserChannels()
         // 给所有的频道设置，时间戳和文章数组
-        data.channels.forEach((channel) => {
+        data.channels.forEach(channel => {
           channel.timestamp = null
           channel.articles = []
           channel.loading = false
@@ -145,5 +163,8 @@ export default {
     margin-top: 90px;
     margin-bottom: 50px;
   }
+}
+.close {
+  float: right;
 }
 </style>
