@@ -39,7 +39,7 @@
                 <p>
                   <span>{{article.aut_name}}</span> &nbsp;
                   <span>{{article.comm_count}}评论</span> &nbsp;
-                  <span>{{article.pubdate}}</span>
+                  <span>{{article.pubdate | fmtDate}}</span>
                   <van-icon name="cross" class="close" />
                 </p>
               </div>
