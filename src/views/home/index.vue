@@ -40,7 +40,7 @@
                   <span>{{article.aut_name}}</span> &nbsp;
                   <span>{{article.comm_count}}评论</span> &nbsp;
                   <span>{{article.pubdate | fmtDate}}</span>
-                  <van-icon name="cross" class="close" />
+                  <van-icon name="cross" class="close" @click="hide=true"/>
                 </p>
               </div>
             </van-cell>
@@ -49,7 +49,7 @@
       </van-tab>
     </van-tabs>
     <!-- 弹出层组件-moreAction -->
-    <more-action></more-action>
+    <more-action v-model="hide"></more-action>
   </div>
 </template>
 
@@ -78,7 +78,8 @@ export default {
       // tab是组件中默人显示的tab的索引
       activeIndex: 0,
       // 下拉更新完毕之后显示成功的提示
-      successText: ''
+      successText: '',
+      hide: false
     }
   },
   created () {

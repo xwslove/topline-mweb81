@@ -1,6 +1,13 @@
 <template>
+<!-- 不能使用 v-model="value"
+    value 是通过props传递，是单项的
+    当dialog组件中input事件触发，说明要去更改value
+
+    @input="handleInput(i)"
+   -->
 <van-dialog
-  v-model="show"
+  :value="value"
+  @input="$emit('input',$event)"
  :show-confirm-button="false"
  close-on-click-overlay
 >
@@ -24,9 +31,14 @@
 <script>
 export default {
   name: 'MoreAction',
+  props: {
+    value: {
+      type: Boolean,
+      required: true
+    }
+  },
   data () {
     return {
-      show: true,
       hide: false
     }
   }
