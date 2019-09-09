@@ -35,12 +35,20 @@ export default {
     value: {
       type: Boolean,
       required: true
+    },
+    article: {
+      type: Object,
+      required: true
     }
   },
   data () {
     return {
       hide: false
     }
+  },
+  created () {
+    // 测试
+    console.log(this.article.art_id)
   }
 }
 </script>
