@@ -12,9 +12,9 @@
  close-on-click-overlay
 >
 <van-cell-group v-show="!hide">
-  <van-cell title="拉黑作者" icon="location-o"/>
+  <van-cell title="不感兴趣" icon="location-o" @click="handle('dislike')"/>
   <van-cell title="防窥内容" icon="location-o" is-link @click="hide=true"/>
-  <van-cell title="不感兴趣" icon="location-o"/>
+  <van-cell title="拉黑作者" icon="location-o" @click="handle('blacklist')"/>
 </van-cell-group>
 
 <van-cell-group v-show="hide">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { dislikeArticle } from '@/api/article'
 export default {
   name: 'MoreAction',
   props: {
@@ -46,9 +47,26 @@ export default {
       hide: false
     }
   },
-  created () {
-    // 测试
-    console.log(this.article.art_id)
+  methods: {
+  // 点击所有cell的时候都该执行该方法
+  // 通过type判断具体要执行的操作
+    handle (type) {
+      switch (type) {
+        case 'dislike':
+          this.dislike()
+          break
+        case 'blacklist':
+          break
+      }
+    },
+    async dislike () {
+      try {
+        await dislikeArticle(this.article.art_id)
+        this.$toast.success('操作成功')
+      } catch (err) {
+        this.$toast.fail('操作失败')
+      }
+    }
   }
 }
 </script>
