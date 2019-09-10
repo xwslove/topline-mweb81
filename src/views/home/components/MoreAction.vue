@@ -19,17 +19,16 @@
 
 <van-cell-group v-show="hide">
   <van-cell icon="arrow-left" @click="hide=false"/>
-  <van-cell title="色情低俗" />
-  <van-cell title="青少那想" />
-  <van-cell title="政治舆论" />
-  <van-cell title="不甘心去" />
+  <van-cell title="标题夸张" @click="handle('report',1)"/>
+  <van-cell title="色情低俗" @click="handle('report',2)"/>
+  <van-cell title="错别字多" @click="handle('report',3)"/>
 </van-cell-group>
 
 </van-dialog>
 </template>
 
 <script>
-import { dislikeArticle } from '@/api/article'
+import { dislikeArticle, reportArticle } from '@/api/article'
 import { blacklists } from '@/api/user'
 export default {
   name: 'MoreAction',
@@ -51,7 +50,7 @@ export default {
   methods: {
   // 点击所有cell的时候都该执行该方法
   // 通过type判断具体要执行的操作
-    handle (type) {
+    handle (type, reportType) {
       switch (type) {
         case 'dislike':
           this.dislike()
@@ -59,6 +58,9 @@ export default {
         case 'blacklist':
           // 拉黑作者
           this.blacklistUser()
+          break
+        case 'report':
+          this.report(reportType)
           break
       }
     },
@@ -72,21 +74,35 @@ export default {
       } catch (err) {
         this.$toast.fail('操作失败')
       }
-    }
-  },
-  // 不感兴趣
-  async dislike () {
-    try {
-      await dislikeArticle(this.article.art_id)
-      this.$toast.success('操作成功')
-      // 隐藏移除掉数据
-      // 告知父组件，操作成功
-      this.$emit('handleSuccess')
-    } catch (err) {
-      this.$toast.fail('操作失败')
+    },
+
+    // 不感兴趣
+    async dislike () {
+      try {
+        await dislikeArticle(this.article.art_id)
+        this.$toast.success('操作成功')
+        // 隐藏移除掉数据
+        // 告知父组件，操作成功
+        this.$emit('handleSuccess')
+      } catch (err) {
+        this.$toast.fail('操作失败')
+      }
+    },
+    // 举报文章
+    async report (reportType) {
+      try {
+        await reportArticle({
+          target: this.article.art_id,
+          type: reportType
+        })
+        // 告诉父组件隐藏对话框
+        this.$emit('input', false)
+        this.$toast.success('操作成功')
+      } catch (err) {
+        this.$toast.fail('操作失败')
+      }
     }
   }
-
 }
 </script>
 

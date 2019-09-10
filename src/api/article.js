@@ -27,3 +27,15 @@ export const dislikeArticle = (id) => {
     target: id
   })
 }
+// 举报类型
+// 0-其他问题1标题夸张
+export const reportArticle = ({
+  // 文章id
+  target,
+  type
+}) => {
+  return request.post('/app/v1_0/article/reports', {
+    target,
+    type
+  })
+}
