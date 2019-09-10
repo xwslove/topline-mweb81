@@ -19,9 +19,15 @@
 
 <van-cell-group v-show="hide">
   <van-cell icon="arrow-left" @click="hide=false"/>
-  <van-cell title="标题夸张" @click="handle('report',1)"/>
+  <!-- <van-cell title="标题夸张" @click="handle('report',1)"/>
   <van-cell title="色情低俗" @click="handle('report',2)"/>
-  <van-cell title="错别字多" @click="handle('report',3)"/>
+  <van-cell title="错别字多" @click="handle('report',3)"/> -->
+  <van-cell
+    v-for="item in reportList"
+    :key='item.type'
+    :title="item.title"
+    @click="handle('report',item.type)"
+  ></van-cell>
 </van-cell-group>
 
 </van-dialog>
@@ -44,7 +50,19 @@ export default {
   },
   data () {
     return {
-      hide: false
+      hide: false,
+      // 举报类型： 0-其他问题，1-标题夸张，2-低俗色情，3-错别字多，4-旧闻重复，5-广告软文，6-内容不实，7-涉嫌违法犯罪，8-侵权'
+      reportList: [
+        { title: '标题夸张', type: 1 },
+        { title: '低俗色情', type: 2 },
+        { title: '错别字多', type: 3 },
+        { title: '旧闻重复', type: 4 },
+        { title: '广告软文', type: 5 },
+        { title: '内容不实', type: 6 },
+        { title: '涉嫌违法犯罪', type: 7 },
+        { title: '侵权', type: 8 },
+        { title: '其他问题', type: 0 }
+      ]
     }
   },
   methods: {
