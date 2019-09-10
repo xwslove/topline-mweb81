@@ -5,7 +5,11 @@
     <!-- 频道列表 -->
     <van-tabs animated v-model="activeIndex">
       <!-- 遍历标签页，显示频道列表 -->
-      <van-tab v-for="channel in channels" :title="channel.name" :key="channel.id">
+      <van-tab
+      type='line'
+      v-for="channel in channels"
+      :title="channel.name"
+      :key="channel.id">
         <!-- 下拉加载更多组件 -->
         <van-pull-refresh
           :success-text="successText"
