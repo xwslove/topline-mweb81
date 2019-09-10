@@ -51,7 +51,11 @@
     </van-tabs>
     <!-- 弹出层组件-moreAction -->
     <!-- 如果article的值为null 不显示more-action -->
-    <more-action v-if="currentArticle" :article="currentArticle" v-model="hide"></more-action>
+    <more-action
+    v-if="currentArticle"
+    @handleSuccess='handleSuccess'
+    :article="currentArticle"
+    v-model="hide"></more-action>
   </div>
 </template>
 
@@ -164,6 +168,20 @@ export default {
     handleAction (article) {
       this.hide = true
       this.currentArticle = article
+    },
+    handleSuccess () {
+      // 隐藏
+      this.hide = false
+      // 去掉当前文章数据
+      // this。currentarticle
+      // 找到当前文章的索引
+      // findIndex()查找第一个满足元素的索引
+      const articles = this.currentChannel.articles
+      const index = articles.findIndex((article) => {
+        return article.art_id === this.currentArticle.art_id
+      })
+      // 删除指定位置的元素
+      articles.splice(index, 1)
     }
   }
 }
