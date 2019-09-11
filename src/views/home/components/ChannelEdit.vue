@@ -10,7 +10,15 @@
       <van-button
       round
       type="danger"
-      size="mini">编辑</van-button>
+      size="mini"
+      v-show="!isEdit"
+      @click="isEdit=true">编辑</van-button>
+       <van-button
+      round
+      type="danger"
+      size="mini"
+      v-show="isEdit"
+      @click="isEdit=false">完成</van-button>
   </van-cell>
   <van-grid>
       <van-grid-item
@@ -20,7 +28,8 @@
       <van-icon
       slot="icon"
       class="close-icon"
-      name="close"/>
+      name="close"
+      v-show="isEdit"/>
       </van-grid-item>
   </van-grid>
   <!-- 推荐频道 -->
@@ -46,7 +55,8 @@ export default {
   },
   data () {
     return {
-
+      // 是否是编辑模式
+      isEdit: false
     }
   }
 }
