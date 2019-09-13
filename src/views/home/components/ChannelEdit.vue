@@ -24,7 +24,7 @@
       <van-grid-item
       v-for="(channel,index) in channels"
       :key="channel.id"
-      @click="handleMyChannelItem(index)"
+      @click="handleMyChannelItem(index,channel.id)"
       >
       <div slot="text" class="van-grid-item__text" :class="{ active: active === index }" >
           {{ channel.name }}
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel'
+import { getAllChannels, deleteChannel } from '@/api/channel'
 import { mapState } from 'vuex'
 import { setItem } from '@/utils/localStorage'
 export default {
@@ -109,7 +109,7 @@ export default {
       }
     },
     // 点击我的视频的时候
-    handleMyChannelItem (index) {
+    async handleMyChannelItem (index, channelId) {
       // 1费编辑模式
       if (!this.isEdit) {
         // 告诉父组件，选中的频道的索引
@@ -124,6 +124,11 @@ export default {
       // 通过mapstate 做了映射
       if (this.user) {
         // 2.3如果登陆，发送请求
+        try {
+          await deleteChannel(channelId)
+        } catch (err) {
+          this.$toast.fail('操作失败')
+        }
         return
       }
       // 2.4 没有登录，把频道列表记录到本地存储
