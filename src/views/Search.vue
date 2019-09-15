@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { getSuggestion } from '@/api/search'
 import { mapState } from 'vuex'
 import * as storageTools from '@/utils/localStorage'
@@ -99,7 +100,7 @@ export default {
     },
     onCancel () {},
     // 再文本框输入的过程中获取提示
-    async handleInput () {
+    handleInput: _.debounce(async function () {
       // 判断是否为空
       if (this.value.length === 0) {
         return
@@ -110,7 +111,8 @@ export default {
       } catch (err) {
         console.log(err)
       }
-    },
+    }, 300),
+    // 点击历史记录删除按钮
     handleDelete (index) {
       this.histories.splice(index, 1)
       storageTools.setItem('history', this.histories)
