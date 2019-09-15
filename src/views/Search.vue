@@ -18,7 +18,10 @@
       v-for="item in suggestionList"
       :key="item"
       :title="item"
-      icon="search"/>
+      icon="search">
+      <!-- <div slot="title">{{ highlight(item) }}</div> -->
+        <div slot="title" v-html="highlight(item)"></div>
+      </van-cell>
     </van-cell-group>
 
     <!-- 历史记录 -->
@@ -102,6 +105,12 @@ export default {
     handleDelete (index) {
       this.histories.splice(index, 1)
       storageTools.setItem('history', this.histories)
+    },
+    // 高亮显示搜索建议中的匹配内容
+    highlight (item) {
+      const reg = new RegExp(this.value, 'gi')
+      /// abc/gi
+      return item.replace(reg, `<span style="color: red">${this.value}</span>`)
     }
   }
 }
