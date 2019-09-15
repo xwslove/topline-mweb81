@@ -72,7 +72,7 @@ export default {
       return
     }
     // 没有登录，从本地存储获取数据
-    this.histories = storageTools.getItem('history' || [])
+    this.histories = storageTools.getItem('history') || []
   },
   methods: {
     onSearch (item) {
@@ -85,7 +85,7 @@ export default {
       })
       // 判断hisory中是否已经存在item
       if (this.histories.includes(item)) {
-
+        return
       }
       // 记录搜索历史
       this.histories.push(item)
@@ -93,6 +93,7 @@ export default {
       if (this.user) {
         return
       }
+      alert('1')
       // 没登录把历史存储到本地存储
       storageTools.setItem('history', this.histories)
     },
