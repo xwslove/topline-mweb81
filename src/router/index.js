@@ -33,7 +33,7 @@ export default new Router({
       ]
     },
     {
-      path: 'search',
+      path: '/search',
       name: 'search',
       component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue')
     },
